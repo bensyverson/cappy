@@ -21,7 +21,7 @@ Cappy is a Swift package (Swift 6.2+), **macOS-only** by nature: it links Screen
 - **Permissions:** Screen Recording and Accessibility are held by a small signed helper app, not by the terminal (vision doc, ruling 1). Tests that need them are tagged and skip with a clear message when the grant is missing; `cappy doctor` reports which grants are present.
 - **Never** trigger a permission prompt on a human's screen from a test or an agent run without saying so first.
 
-<!-- agents:begin core@d4e43a -->
+<!-- agents:begin core@98d8a9 -->
 ## Working rules
 
 **Understand the why.** If the goal behind a request isn't clear, ask before solving — beware the XY problem.
@@ -55,9 +55,10 @@ Cappy is a Swift package (Swift 6.2+), **macOS-only** by nature: it links Screen
 ## A session
 
 - **Start from the handoff doc in `project/`, if the last session left one, and `job orient`.** A handoff is current only if nothing has been committed since it (`git log` after its date); an older one is history, not a starting point. A handoff the user pastes wins.
+- **On the main thread, read `project/agents/delegation.md` in full before you begin, so whether to delegate is a choice, not a default.** A subagent skips this: its brief is its scope, and it doesn’t delegate further.
 - **Unless the user says they're around, assume they aren't.** Make the call yourself when it's safe and a two-way door, queue the rest, and report every decision at the end. While they're around, bring questions as they come up, including ones an agent raises mid-flight.
 - **Before starting, say what needs the user's eyes.**
-- **The session ends at the user's budget, or when your context passes 40%, whichever comes first.** Then integrate what's in flight, persist what the next session needs in the repo rather than memory, and write the handoff. Where the repo delegates, `project/agents/delegation.md` covers how.
+- **Continue working if there’s more to be done, but wrap up once you cross your context limit.** The main thread should wrap after passing 25%; subagents should prepare to hand over their work after passing 40% (check using `contextfill` if available).
 
 ## Git
 
@@ -142,7 +143,7 @@ In order to work with images, use the following CLI tools:
 - `woodcase` <https://github.com/bensyverson/woodcase>: Create visual designs for export to PNG, PDF, or code
 <!-- agents:end images -->
 
-<!-- agents:begin index@836e52 -->
+<!-- agents:begin index@644452 -->
 ## Situational instructions
 
 These files carry instructions for specific situations. When one applies, read the file before acting and follow it.
@@ -152,4 +153,5 @@ These files carry instructions for specific situations. When one applies, read t
 | Before dispatching any subagent | `project/agents/delegation.md` |
 | Before filing or claiming work in job, and when running as a subagent | `project/agents/jobs.md` |
 | The first time a tool call is refused or denied, and before briefing a subagent | `project/agents/harness.md` |
+| Before writing a plan, importing a `tasks:` block, or detailing the leaves of work ahead | `project/agents/planning.md` |
 <!-- agents:end index -->
